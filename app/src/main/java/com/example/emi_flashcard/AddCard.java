@@ -20,17 +20,25 @@ public class AddCard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent data=new Intent();
                 if(((EditText) findViewById(R.id.questionTextField)).getText().toString().isEmpty()||
-                        ((EditText) findViewById(R.id.answerTextField)).getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "A text is missing here", Toast.LENGTH_SHORT).show();
+                        ((EditText) findViewById(R.id.answerTextField)).getText().toString().isEmpty()||
+                        ((EditText) findViewById(R.id.answerWrong1TextField)).getText().toString().isEmpty()||
+                        ((EditText) findViewById(R.id.answerWrong2TextField)).getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "All fields must be answered", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 data.putExtra("question",((EditText) findViewById(R.id.questionTextField)).getText().toString());
                 data.putExtra("answer", ((EditText) findViewById(R.id.answerTextField)).getText().toString());
+                data.putExtra("answerWrong1", ((EditText) findViewById(R.id.answerWrong1TextField)).getText().toString());
+                data.putExtra("answerWrong2", ((EditText) findViewById(R.id.answerWrong2TextField)).getText().toString());
+
                 setResult(RESULT_OK, data);
                 finish();
             }
         });
         ((EditText) findViewById(R.id.questionTextField)).getText().toString();
         ((EditText) findViewById(R.id.answerTextField)).getText().toString();
+        ((EditText) findViewById(R.id.answerWrong1TextField)).getText().toString();
+        ((EditText) findViewById(R.id.answerWrong2TextField)).getText().toString();
 
         findViewById(R.id.my_cancel_icon).setOnClickListener(new View.OnClickListener() {
             @Override
