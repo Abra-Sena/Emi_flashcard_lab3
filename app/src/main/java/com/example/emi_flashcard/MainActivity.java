@@ -1,12 +1,8 @@
 package com.example.emi_flashcard;
 
 import android.content.Intent;
-import android.graphics.Paint;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,14 +10,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
+    FlashcardDatabase flashcardDatabase;
+    List<Flashcard> allFlashcards;
+
+    int currentCardDisplayedIndex = 0;
     private boolean showingResult=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        flashcardDatabase = new FlashcardDatabase(getApplicationContext());
+        flashcardDatabase = new FlashcardDatabase(this);
+        allFlashcards = flashcardDatabase.getAllCards();
+
+        if (allFlashcards != null && allFlashcards.size() > 0) {
+            ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(0).getQuestion());
+            ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(0).getAnswer());
+        }
 
         findViewById(R.id.flashcard_question).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +106,24 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivityForResult(someData, 100);
             }
         });
+
+        findViewById(R.id.my_arrow_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //advance pointer index so we can show next card
+                currentCardDisplayedIndex++;
+
+                //to not get an IndexOutOfBoundsError if viewing the last index card in the list
+                if (currentCardDisplayedIndex > allFlashcards.size() - 1) {
+                    currentCardDisplayedIndex = 0;
+                }
+                //set question and answer TextViews with data from the database
+                ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(currentCardDisplayedIndex).getQuestion());
+                ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(currentCardDisplayedIndex).getAnswer());
+                findViewById(R.id.flashcard_question).setVisibility(View.VISIBLE);
+                findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
@@ -111,11 +140,13 @@ public class MainActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.answer_option1)).setText(answerWrong1);
             ((TextView) findViewById(R.id.answer_option2)).setText(answer);
             ((TextView) findViewById(R.id.answer_option3)).setText(answerWrong2);
+
+            flashcardDatabase.insertCard(new Flashcard(question, answer));
+            allFlashcards = flashcardDatabase.getAllCards();
         }
 
         Snackbar.make(findViewById(R.id.flashcard_question),
                 "Card Successfully Created",
                 Snackbar.LENGTH_SHORT).show();
     }
-
 }

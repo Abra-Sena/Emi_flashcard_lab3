@@ -86,4 +86,6 @@
         android:adjustViewBounds="true"
         android:scaleType="fitEnd"
         android:src="@drawable/ic_cancel_icon" />
+
+
 </RelativeLayout>
