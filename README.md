@@ -11,7 +11,6 @@ The view "Who is the 44th President of the Unitated States" changes to what the 
 User can delete a card and no longer see it in their deck anymore. When all flascards created by the user are deleted, the original flashcard with the question "Who is the 44th President of the Unitated States" shows.
 
 ### App Walk-though
-`TODO://` Add the URL to your animated app walk-though `gif` in the image tag below. Make sure the gif actually renders and animates when viewing this README. (☝️ Remove this paragraph after after adding gif)
 
 <img src="Emi_flashcard_Demo_Lab3.gif" width=200><br>
 
