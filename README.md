@@ -3,14 +3,17 @@
 ## Lab 3
 
 ### App Description
-`TODO://` Add app description
+This flascard application is giving answer "Barack Obama" to the question "Who is the 44th President of the Unitated States". A click on the answer "Barack Obama" return to the first view with the question "Who is the 44th President of the Unitated states".
+A click on the eye icon shows three answers proposition for the user to choose. When the right answer is choosed, the text view's color change to green, but it changes to red when the choice is wrong and show the correct answer with a green background.
+A click on the crossed eye icon, hide the three answers propositions.
+A click on the add icon (+),open an interface where the user can customise his own card by inputing a question, an answer and two other wrong answers. To get the view of his card, the user click on Save and a snackbar show "Card Successfully Created". The card is not save if one field is not answered.
+The view "Who is the 44th President of the Unitated States" changes to what the user wrotes as question and "Barack Obama" changes to the answer the user provided, same for the option answers. The user can browse through the flascards with multiple choice answers shown
+User can delete a card and no longer see it in their deck anymore. When all flascards created by the user are deleted, the original flashcard with the question "Who is the 44th President of the Unitated States" shows.
 
 ### App Walk-though
 `TODO://` Add the URL to your animated app walk-though `gif` in the image tag below. Make sure the gif actually renders and animates when viewing this README. (☝️ Remove this paragraph after after adding gif)
 
-<img src="YOUR_GIF_URL_HERE" width=200><br>
-
-`TODO://` In the User stories section below, add an `x` between the `-[ ]` like this `- [x]` for any user story you complete. (☝️ Remove this paragraph after after checking off user stories)
+<img src="Emi_flashcard_Demo_Lab3.gif" width=200><br>
 
 ## Required
 - [x] User can create a card and still see their created card when the app is relaunched.
@@ -20,7 +23,7 @@
 - [x] User can delete a card and no longer see it in their deck anymore
 - [ ] Flashcards are shown in random order instead of the order they were created in
 - [ ] User can edit a card and see the edit saved when they browse through their deck of cards
-- [ ] User can create flashcards with multiple answers and be able to browse through cards with multiple choice answers shown
+- [x] User can create flashcards with multiple answers and be able to browse through cards with multiple choice answers shown
 
 
 ## Lab 2
