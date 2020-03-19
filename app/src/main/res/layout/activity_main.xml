@@ -58,15 +58,15 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="-2dp"
-        android:layout_marginBottom="287dp"
+        android:layout_marginStart="-1dp"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginBottom="220dp"
         android:background="@drawable/option_answer_background"
         android:gravity="center"
         android:text="Bill Clinton"
         android:textAlignment="center"
         android:textSize="40sp"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/answer_option2"
@@ -75,13 +75,13 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginBottom="205dp"
+        android:layout_marginBottom="144dp"
         android:background="@drawable/option_answer_background"
         android:gravity="center"
         android:text="Barack Obama"
         android:textAlignment="center"
         android:textSize="40sp"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/answer_option3"
@@ -90,15 +90,15 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="-4dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="121dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="69dp"
         android:background="@drawable/option_answer_background"
         android:gravity="center"
         android:text="Richard Nixon"
         android:textAlignment="center"
         android:textSize="40sp"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/eye_view"
@@ -132,6 +132,19 @@
         android:src="@drawable/ic_add_icon" />
 
     <ImageView
+        android:id="@+id/my_edit_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="268dp"
+        android:layout_marginEnd="379dp"
+        android:layout_marginBottom="13dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_edit_icon" />
+
+    <ImageView
         android:id="@+id/my_arrow_icon"
         android:layout_width="55dp"
         android:layout_height="50dp"
@@ -146,5 +159,21 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_arrow_icon" />
+
+    <ImageView
+        android:id="@+id/my_trash_icon"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="141dp"
+        android:layout_marginTop="228dp"
+        android:layout_marginEnd="179dp"
+        android:layout_marginRight="179dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_trash_icon" />
 
 </RelativeLayout>
