@@ -15,6 +15,9 @@ public class AddCard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
 
+        String editKey1 = getIntent().getStringExtra("editQuestion");
+        String editKey2 = getIntent().getStringExtra("editAnswer");
+
         findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

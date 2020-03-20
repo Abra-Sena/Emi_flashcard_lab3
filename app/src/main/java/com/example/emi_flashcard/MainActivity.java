@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     FlashcardDatabase flashcardDatabase;
     List<Flashcard> allFlashcards;
+    Flashcard editedCard;
 
     int currentCardDisplayedIndex = 0;
     private boolean showingResult=true;
@@ -109,7 +110,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.my_edit_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent editCard = new Intent(MainActivity.this, AddCard.class);
+                editCard.putExtra("editQuestion", "Who is the actual President of your Country?");
+                editCard.putExtra("editAnswer", "Faure");
+                MainActivity.this.startActivityForResult(editCard, 200);
             }
         });
 
@@ -117,15 +121,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //advance pointer index so we can show next card
-                //currentCardDisplayedIndex++;
+                currentCardDisplayedIndex = getRandomNumber(allFlashcards.size());
 
-                getRandomNumber(allFlashcards.size());
-
-                //to not get an IndexOutOfBoundsError if viewing the last index card in the list
-                /*if (currentCardDisplayedIndex > allFlashcards.size() - 1) {
-                    currentCardDisplayedIndex = 0;
-                    ((TextView) findViewById(R.id.flashcard_question)).setText("Add a new Card");
-                }*/
                 //set question and answer TextViews with data from the database
                 ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(currentCardDisplayedIndex).getQuestion());
                 ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(currentCardDisplayedIndex).getAnswer());
@@ -142,6 +139,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 flashcardDatabase.deleteCard(((TextView) findViewById(R.id.flashcard_question)).getText().toString());
                 allFlashcards = flashcardDatabase.getAllCards();
+                if(currentCardDisplayedIndex == 0){
+                    ((TextView) findViewById(R.id.flashcard_question)).setText("Click on + to Add a new Card");
+                    findViewById(R.id.answer_option1).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.answer_option2).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.answer_option3).setVisibility(View.INVISIBLE);
+                }
             }
         });
     }
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 100){
+        if(requestCode == 100 && resultCode == RESULT_OK){
             String question = data.getExtras().getString("question");
             String answer = data.getExtras().getString("answer");
             String answerWrong1 = data.getExtras().getString("answerWrong1");
@@ -168,6 +171,17 @@ public class MainActivity extends AppCompatActivity {
 
             flashcardDatabase.insertCard(new Flashcard(question, answer, answerWrong1, answerWrong2));
             allFlashcards = flashcardDatabase.getAllCards();
+        } else if(requestCode == 200 && requestCode == RESULT_OK){
+            String question = data.getExtras().getString("question");
+            String answer = data.getExtras().getString("answer");
+
+            ((TextView) findViewById(R.id.flashcard_question)).setText(question);
+            ((TextView) findViewById(R.id.flashcard_answer)).setText(answer);
+
+            editedCard.setQuestion(question);
+            editedCard.setAnswer(answer);
+
+            flashcardDatabase.updateCard(editedCard);
         }
 
         Snackbar.make(findViewById(R.id.flashcard_question),
