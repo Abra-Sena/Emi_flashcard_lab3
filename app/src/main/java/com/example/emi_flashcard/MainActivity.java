@@ -103,16 +103,18 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.my_add_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent addNewCard = new Intent(MainActivity.this, AddCard.class);
-                MainActivity.this.startActivityForResult(addNewCard, 100);
+                Intent addCard = new Intent(MainActivity.this, AddCard.class);
+                MainActivity.this.startActivityForResult(addCard, 100);
             }
         });
         findViewById(R.id.my_edit_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent editCard = new Intent(MainActivity.this, AddCard.class);
-                editCard.putExtra("editQuestion", "Who is the actual President of your Country?");
-                editCard.putExtra("editAnswer", "Faure");
+                editCard.putExtra("editQuestion",((TextView) findViewById(R.id.flashcard_question)).getText().toString());
+                editCard.putExtra("editAnswer", ((TextView) findViewById(R.id.flashcard_answer)).getText().toString());
+                editCard.putExtra("editWrongAnswer1",((TextView) findViewById(R.id.answer_option1)).getText().toString());
+                editCard.putExtra("editWrongAnswer2", ((TextView) findViewById(R.id.answer_option3)).getText().toString());
                 MainActivity.this.startActivityForResult(editCard, 200);
             }
         });
@@ -120,18 +122,24 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.my_arrow_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //advance pointer index so we can show next card
-                currentCardDisplayedIndex = getRandomNumber(allFlashcards.size());
+                if(allFlashcards.size()>0){
+                    //advance pointer index so we can show next card
+                    currentCardDisplayedIndex = getRandomNumber(allFlashcards.size());
+                    //set question and answer TextViews with data from the database
+                    ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(currentCardDisplayedIndex).getQuestion());
+                    ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(currentCardDisplayedIndex).getAnswer());
+                    ((TextView) findViewById(R.id.answer_option1)).setText(allFlashcards.get(currentCardDisplayedIndex).getWrongAnswer1());
+                    ((TextView) findViewById(R.id.answer_option2)).setText(allFlashcards.get(currentCardDisplayedIndex).getAnswer());
+                    ((TextView) findViewById(R.id.answer_option3)).setText(allFlashcards.get(currentCardDisplayedIndex).getWrongAnswer2());
 
-                //set question and answer TextViews with data from the database
-                ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(currentCardDisplayedIndex).getQuestion());
-                ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(currentCardDisplayedIndex).getAnswer());
-                ((TextView) findViewById(R.id.answer_option1)).setText(allFlashcards.get(currentCardDisplayedIndex).getWrongAnswer1());
-                ((TextView) findViewById(R.id.answer_option2)).setText(allFlashcards.get(currentCardDisplayedIndex).getAnswer());
-                ((TextView) findViewById(R.id.answer_option3)).setText(allFlashcards.get(currentCardDisplayedIndex).getWrongAnswer2());
-
-                findViewById(R.id.flashcard_question).setVisibility(View.VISIBLE);
-                findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.flashcard_question).setVisibility(View.VISIBLE);
+                    findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
+                } else {
+                    ((TextView) findViewById(R.id.flashcard_question)).setText("No Saved Card - Add a new Card");
+                    findViewById(R.id.answer_option1).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.answer_option2).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.answer_option3).setVisibility(View.INVISIBLE);
+                }
             }
         });
         findViewById(R.id.my_trash_icon).setOnClickListener(new View.OnClickListener() {
@@ -139,12 +147,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 flashcardDatabase.deleteCard(((TextView) findViewById(R.id.flashcard_question)).getText().toString());
                 allFlashcards = flashcardDatabase.getAllCards();
-                if(currentCardDisplayedIndex == 0){
-                    ((TextView) findViewById(R.id.flashcard_question)).setText("Click on + to Add a new Card");
-                    findViewById(R.id.answer_option1).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.answer_option2).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.answer_option3).setVisibility(View.INVISIBLE);
-                }
             }
         });
     }
@@ -157,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
+
         if(requestCode == 100 && resultCode == RESULT_OK){
             String question = data.getExtras().getString("question");
             String answer = data.getExtras().getString("answer");
@@ -171,15 +174,22 @@ public class MainActivity extends AppCompatActivity {
 
             flashcardDatabase.insertCard(new Flashcard(question, answer, answerWrong1, answerWrong2));
             allFlashcards = flashcardDatabase.getAllCards();
-        } else if(requestCode == 200 && requestCode == RESULT_OK){
-            String question = data.getExtras().getString("question");
-            String answer = data.getExtras().getString("answer");
+        } else if(requestCode == 200 && resultCode == RESULT_OK){
+            String editQuestion = getIntent().getStringExtra("editQuestion");
+            String editAnswer = getIntent().getStringExtra("editAnswer");
+            String editWrongAnswer1 = getIntent().getStringExtra("editWrongAnswer1");
+            String editWrongAnswer2 = getIntent().getStringExtra("editWrongAnswer2");
 
-            ((TextView) findViewById(R.id.flashcard_question)).setText(question);
-            ((TextView) findViewById(R.id.flashcard_answer)).setText(answer);
+            ((TextView) findViewById(R.id.flashcard_question)).setText(editQuestion);
+            ((TextView) findViewById(R.id.flashcard_answer)).setText(editAnswer);
+            ((TextView) findViewById(R.id.answer_option1)).setText(editWrongAnswer1);
+            ((TextView) findViewById(R.id.answer_option2)).setText(editAnswer);
+            ((TextView) findViewById(R.id.answer_option3)).setText(editWrongAnswer2);
 
-            editedCard.setQuestion(question);
-            editedCard.setAnswer(answer);
+            editedCard.setQuestion(editQuestion);
+            editedCard.setAnswer(editAnswer);
+            editedCard.setWrongAnswer1(editWrongAnswer1);
+            editedCard.setWrongAnswer1(editWrongAnswer2);
 
             flashcardDatabase.updateCard(editedCard);
         }

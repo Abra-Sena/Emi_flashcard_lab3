@@ -15,8 +15,17 @@ public class AddCard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
 
-        String editKey1 = getIntent().getStringExtra("editQuestion");
-        String editKey2 = getIntent().getStringExtra("editAnswer");
+        String editQuestion = getIntent().getStringExtra("editQuestion");
+        String editAnswer = getIntent().getStringExtra("editAnswer");
+        String editWrongAnswer1 = getIntent().getStringExtra("editWrongAnswer1");
+        String editWrongAnswer2 = getIntent().getStringExtra("editWrongAnswer2");
+
+        if(editQuestion != null || editAnswer != null || editWrongAnswer1 != null || editWrongAnswer2 != null){
+            ((EditText) findViewById(R.id.questionTextField)).setText(editQuestion);
+            ((EditText) findViewById(R.id.answerTextField)).setText(editAnswer);
+            ((EditText) findViewById(R.id.answerWrong1TextField)).setText(editWrongAnswer1);
+            ((EditText) findViewById(R.id.answerWrong2TextField)).setText(editWrongAnswer2);
+        }
 
         findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,20 +37,17 @@ public class AddCard extends AppCompatActivity {
                         ((EditText) findViewById(R.id.answerWrong2TextField)).getText().toString().isEmpty()){
                     Toast.makeText(getApplicationContext(), "All fields must be answered", Toast.LENGTH_SHORT).show();
                     return;
-                }
-                data.putExtra("question",((EditText) findViewById(R.id.questionTextField)).getText().toString());
-                data.putExtra("answer", ((EditText) findViewById(R.id.answerTextField)).getText().toString());
-                data.putExtra("answerWrong1", ((EditText) findViewById(R.id.answerWrong1TextField)).getText().toString());
-                data.putExtra("answerWrong2", ((EditText) findViewById(R.id.answerWrong2TextField)).getText().toString());
+                } else {
+                    data.putExtra("question",((EditText) findViewById(R.id.questionTextField)).getText().toString());
+                    data.putExtra("answer", ((EditText) findViewById(R.id.answerTextField)).getText().toString());
+                    data.putExtra("answerWrong1", ((EditText) findViewById(R.id.answerWrong1TextField)).getText().toString());
+                    data.putExtra("answerWrong2", ((EditText) findViewById(R.id.answerWrong2TextField)).getText().toString());
 
-                setResult(RESULT_OK, data);
-                finish();
+                    setResult(RESULT_OK, data);
+                    finish();
+                }
             }
         });
-        ((EditText) findViewById(R.id.questionTextField)).getText().toString();
-        ((EditText) findViewById(R.id.answerTextField)).getText().toString();
-        ((EditText) findViewById(R.id.answerWrong1TextField)).getText().toString();
-        ((EditText) findViewById(R.id.answerWrong2TextField)).getText().toString();
 
         findViewById(R.id.my_cancel_icon).setOnClickListener(new View.OnClickListener() {
             @Override
