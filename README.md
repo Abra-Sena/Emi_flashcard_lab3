@@ -12,6 +12,7 @@ User can delete a card and no longer see it in their deck anymore. When all flas
 
 ### App Walk-though
 
+<img src="Emi_flashcard_Demo_Lab_3.gif" width=200><br>
 <img src="Emi_flashcard_Demo_Lab3.gif" width=200><br>
 
 ## Required
